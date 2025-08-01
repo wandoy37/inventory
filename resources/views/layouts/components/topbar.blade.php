@@ -14,7 +14,7 @@
                         <img src="{{ asset('assets') }}/compiled/jpg/1.jpg" alt="Avatar">
                     </div>
                     <div class="text">
-                        <h6 class="user-dropdown-name">John Ducky</h6>
+                        <h6 class="user-dropdown-name">{{ Auth::user()->username }}</h6>
                         <p class="user-dropdown-status text-sm text-muted">Member</p>
                     </div>
                 </a>
