@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/bank-account', [BankAccountController::class, 'index'])->name('bankaccount.index');
+
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
