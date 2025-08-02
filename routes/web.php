@@ -26,4 +26,6 @@ Route::get('/bank-account', [BankAccountController::class, 'index'])->name('bank
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 // Daftar Barang
-Route::get('/daftar-barang', [ItemController::class, 'index'])->name('daftarbarang.index');
+Route::get('/daftar-barang', [ItemController::class, 'index'])->name('daftar.barang.index');
+// Get All Data Barang
+Route::get('/daftar-barang/data', [ItemController::class, 'getData'])->name('daftar.barang.data');

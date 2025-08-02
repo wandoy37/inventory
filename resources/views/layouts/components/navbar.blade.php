@@ -14,7 +14,7 @@
             </li>
 
             <li class="menu-item  ">
-                <a href="{{ route('daftarbarang.index') }}" class='menu-link'>
+                <a href="{{ route('daftar.barang.index') }}" class='menu-link'>
                     <span><i class="bi box-seam"></i> Daftar Barang</span>
                 </a>
             </li>
