@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,6 @@ Route::get('/bank-account', [BankAccountController::class, 'index'])->name('bank
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+// Daftar Barang
+Route::get('/daftar-barang', [ItemController::class, 'index'])->name('daftarbarang.index');
