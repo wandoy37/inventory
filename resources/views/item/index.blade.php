@@ -5,7 +5,25 @@
 
 @section('content')
     <div class="page-content">
+        @if (session('success'))
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-success alert-dismissible show fade">
+                        <Strong>Success </Strong> {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        @endif
         <section class="section">
+            <div class="row pb-4">
+                <div class="col-lg-12">
+                    <a href="{{ route('daftar.barang.create') }}" class="btn btn-rounded btn-outline-primary">
+                        <i class="bi bi-plus"></i>
+                        Tambah Barang
+                    </a>
+                </div>
+            </div>
             <div class="row" id="table-hover-row">
                 <div class="col-12">
                     <div class="card">

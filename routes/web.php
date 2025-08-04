@@ -29,3 +29,14 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::get('/daftar-barang', [ItemController::class, 'index'])->name('daftar.barang.index');
 // Get All Data Barang
 Route::get('/daftar-barang/data', [ItemController::class, 'getData'])->name('daftar.barang.data');
+// Page Create new barang
+Route::get('/daftar-barang/create', [ItemController::class, 'create'])->name('daftar.barang.create');
+// Store Process new barang
+Route::post('/daftar-barang/store', [ItemController::class, 'store'])->name('daftar.barang.store');
+// Edit barang
+Route::get('/daftar-barang/edit/{id}', [ItemController::class, 'edit'])->name('daftar.barang.edit');
+// Update process barang
+Route::put('/daftar-barang/update/{id}', [ItemController::class, 'update'])->name('daftar.barang.update');
+
+// Route untuk hapus satuan yang sudah ada
+Route::delete('/daftar-barang/satuan/{id}', [ItemController::class, 'destroySatuan'])->name('daftar.barang.satuan.destroy');
