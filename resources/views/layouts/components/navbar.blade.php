@@ -27,6 +27,9 @@
                     <div class="submenu-group-wrapper">
                         <ul class="submenu-group">
                             <li class="submenu-item  ">
+                                <a href="{{ route('daftar-vendor.index') }}" class='submenu-link'>Daftar Vendor</a>
+                            </li>
+                            <li class="submenu-item  ">
                                 <a href="layout-default.html" class='submenu-link'>Pembelian</a>
                             </li>
                             <li class="submenu-item  ">

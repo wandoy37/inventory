@@ -3,6 +3,8 @@
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\VendorController;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +29,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 // Daftar Barang
 Route::get('/daftar-barang', [ItemController::class, 'index'])->name('daftar.barang.index');
-// Get All Data Barang
+// Get data barang with yajra datatables
 Route::get('/daftar-barang/data', [ItemController::class, 'getData'])->name('daftar.barang.data');
 // Page Create new barang
 Route::get('/daftar-barang/create', [ItemController::class, 'create'])->name('daftar.barang.create');
@@ -37,6 +39,8 @@ Route::post('/daftar-barang/store', [ItemController::class, 'store'])->name('daf
 Route::get('/daftar-barang/edit/{id}', [ItemController::class, 'edit'])->name('daftar.barang.edit');
 // Update process barang
 Route::put('/daftar-barang/update/{id}', [ItemController::class, 'update'])->name('daftar.barang.update');
-
 // Route untuk hapus satuan yang sudah ada
 Route::delete('/daftar-barang/satuan/{id}', [ItemController::class, 'destroySatuan'])->name('daftar.barang.satuan.destroy');
+
+// Daftar Vendor
+Route::resource('/daftar-vendor', VendorController::class);
