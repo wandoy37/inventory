@@ -25,6 +25,12 @@ class Purchases extends Model
         'status'
     ];
 
+    // Generate and set purchase_number otomatis
+    public function generatePurchaseNumber()
+    {
+        $this->purchase_number = 'PO-' . now()->format('YmdHis');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
