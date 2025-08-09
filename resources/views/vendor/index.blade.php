@@ -24,12 +24,12 @@
                     </a>
                 </div>
             </div>
-            <div class="row" id="table-hover-row">
+            <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-content">
                             <div class="card-body">
-                                {!! $html->table(['class' => 'table table-bordered'], true) !!}
+                                {!! $html->table(['class' => 'table table-hover'], true) !!}
                             </div>
                         </div>
                     </div>

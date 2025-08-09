@@ -21,8 +21,9 @@ class VendorController extends Controller
             )
                 ->addIndexColumn()
                 ->addColumn('action', function ($item) {
-                    return '<a href="' . route('daftar-vendor.edit', $item->id) . '" class="btn btn-outline-primary btn-md">
+                    return '<a href="' . route('daftar-vendor.edit', $item->id) . '" class="btn btn-outline-dark btn-sm">
                     <i class="bi bi-pen"></i>
+                    Edit
                 </a>';
                 })
                 ->rawColumns(['action'])
