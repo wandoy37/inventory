@@ -26,9 +26,27 @@ class Purchases extends Model
     ];
 
     // Generate and set purchase_number otomatis
-    public function generatePurchaseNumber()
+    protected static function boot()
     {
-        $this->purchase_number = 'PO-' . now()->format('YmdHis');
+        parent::boot();
+
+        static::creating(function ($purchase) {
+            // Ambil 2 huruf awal nama
+            $prefix = 'PO-';
+
+            // Ambil ID terakhir dan random 2 digit
+            $lastId = self::max('id') ?? 0;
+            $nextId = $lastId + 1;
+
+            $purchase_number = $prefix . str_pad($nextId, 4, '0', STR_PAD_LEFT);
+
+            // Pastikan kode unik
+            while (self::where('purchase_number', $purchase_number)->exists()) {
+                $purchase_number = $prefix . str_pad($nextId, 2, '0', STR_PAD_LEFT);
+            }
+
+            $purchase->purchase_number = $purchase_number;
+        });
     }
 
     public function user(): BelongsTo

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Vendor')
-@section('pageHeading', 'Daftar Vendor')
+@section('title', 'Stock Opname')
+@section('pageHeading', 'Stock Opname')
 
 @section('content')
     <div class="page-content">
@@ -18,13 +18,13 @@
         <section class="section">
             <div class="row pb-4">
                 <div class="col-lg-12">
-                    <a href="{{ route('daftar-vendor.create') }}" class="btn btn-rounded btn-outline-primary">
+                    <a href="{{ route('stock-opname.create') }}" class="btn btn-rounded btn-outline-primary">
                         <i class="bi bi-plus"></i>
-                        Tambah Vendor
+                        Stock Opname
                     </a>
                 </div>
             </div>
-            <div class="row" id="table-hover-row">
+            <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-content">

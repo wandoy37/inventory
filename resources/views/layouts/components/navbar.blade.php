@@ -20,7 +20,7 @@
             </li>
 
             <li class="menu-item active has-sub">
-                <a href="#" class='menu-link'>
+                <a href="" class='menu-link'>
                     <span><i class="bi bi-cart-plus"></i> Pembelian</span>
                 </a>
                 <div class="submenu ">
@@ -30,7 +30,9 @@
                                 <a href="{{ route('daftar-vendor.index') }}" class='submenu-link'>Daftar Vendor</a>
                             </li>
                             <li class="submenu-item  ">
-                                <a href="layout-default.html" class='submenu-link'>Pembelian</a>
+                                <a href="{{ route('stock-opname.index') }}" class='submenu-link'>
+                                    Stock Opname
+                                </a>
                             </li>
                             <li class="submenu-item  ">
                                 <a href="layout-default.html" class='submenu-link'>Hutang</a>

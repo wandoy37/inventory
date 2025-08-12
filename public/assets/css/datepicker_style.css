@@ -1,0 +1,27 @@
+/* Rapikan jarak di dalam datepicker */
+        .datepicker {
+            padding: 0 !important;
+        }
+
+        /* Hilangkan sisa border/space di kanan */
+        .datepicker-dropdown {
+            border: 1px solid #ccc;
+            padding: 0;
+        }
+
+        /* Sesuaikan ukuran sel biar pas */
+        .datepicker table {
+            margin: 0;
+        }
+
+        .datepicker table tr td,
+        .datepicker table tr th {
+            padding: 5px;
+        }
+
+        /* Pastikan tabel kalender center */
+        .datepicker table {
+            margin: 0 auto;
+            /* center secara horizontal */
+            text-align: center;
+        }

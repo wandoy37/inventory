@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('purchase_credits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('purchase_id');
-            $table->date('repayment_date');
+            $table->date('repayment_date')->nullable();
             $table->enum('payment_type', ['cash', 'cek/bg', 'bank transfer']);
             $table->enum('status', ['paid', 'credit']);
 

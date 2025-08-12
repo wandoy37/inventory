@@ -3,6 +3,8 @@
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\VendorController;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Route;
@@ -44,3 +46,6 @@ Route::delete('/daftar-barang/satuan/{id}', [ItemController::class, 'destroySatu
 
 // Daftar Vendor
 Route::resource('/daftar-vendor', VendorController::class);
+
+// Stock Opname
+Route::resource('/stock-opname', StockOpnameController::class);

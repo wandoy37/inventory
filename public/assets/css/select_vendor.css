@@ -1,0 +1,21 @@
+/* Bikin background sama seperti form-select bootstrap */
+        .choices__inner {
+            background-color: #fff !important;
+            /* putih */
+        }
+
+        /* Placeholder text */
+        .choices__placeholder {
+            color: #6c757d;
+            /* warna placeholder Bootstrap */
+            opacity: 1;
+        }
+
+        .choices__inner {
+            border: 1px solid #ced4da;
+            border-radius: 0.375rem;
+            /* sesuai Bootstrap */
+            min-height: calc(2.25rem + 2px);
+            display: flex;
+            align-items: center;
+        }

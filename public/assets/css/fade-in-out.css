@@ -1,0 +1,11 @@
+/* Khusus untuk bank transfer */
+.bank-transfer-fields.fx-fade {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.9s ease, max-height 0.9s ease;
+}
+.bank-transfer-fields.fx-fade.is-open {
+  opacity: 1;
+  max-height: 500px; /* cukup besar */
+}
