@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Purchases;
 use App\Models\BankAccount;
 use App\Models\ItemUnitType;
-use App\Models\PurchaseCredit;
 use App\Models\PurchaseItem;
-use App\Models\Purchases;
-use App\Models\PurchaseTransfer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\PurchaseCredit;
+use App\Models\PurchaseTransfer;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class StockOpnameController extends Controller
 {
@@ -21,9 +22,14 @@ class StockOpnameController extends Controller
     public function index(Builder $builder)
     {
         if (request()->ajax()) {
-            return DataTables::of(
-                Purchases::with('vendor')->orderBy('created_at', 'desc')
-            )
+            $query = Purchases::with('vendor')->orderBy('created_at', 'desc');
+
+            $pt = session('payment_type_filter');
+            if (!empty($pt)) {
+                $query->where('payment_type', $pt);
+            }
+
+            return DataTables::of($query)
                 ->addIndexColumn()
                 ->editColumn('payment_type', function ($row) {
                     $map = [
@@ -34,16 +40,20 @@ class StockOpnameController extends Controller
                     ];
                     $val   = strtolower(trim($row->payment_type));
                     $class = $map[$val] ?? 'secondary';
-                    return '<span class="text-capitalize badge bg-light-' . $class . '">' . e($row->payment_type) . '</span>';
+                    return '<span class="text-uppercase badge bg-light-' . $class . '">' . e($row->payment_type) . '</span>';
+                })
+                ->editColumn('payment_total', function ($row) {
+                    // Format angka ke format rupiah 100000 -> 100.000
+                    return number_format($row->payment_total, 0, ',', '.');
                 })
                 ->addColumn('action', function ($item) {
                     return '<a href="' . route('stock-opname.edit', $item->id) . '" class="icon-link icon-link-hover text-dark">
-                    <i class="bi bi-pen mb-2"></i>
-                    Edit
-                </a>';
+                <i class="bi bi-pen mb-2"></i>
+                Edit
+            </a>';
                 })
-                ->rawColumns(['payment_type', 'action']) // wajib untuk render HTML
-                ->escapeColumns([]) // matikan auto-escape untuk semua kolom
+                ->rawColumns(['payment_type', 'action'])
+                ->escapeColumns([])
                 ->toJson();
         }
 
@@ -53,10 +63,16 @@ class StockOpnameController extends Controller
             ['data' => 'vendor.name'],
             ['data' => 'opname_date'],
             ['data' => 'payment_type'],
+            ['data' => 'payment_total'],
             ['data' => 'action', 'name' => 'action', 'title' => 'Action', 'orderable' => false, 'searchable' => false],
         ]);
 
-        return view('stockopname.index', compact('html'));
+        $widget = Purchases::select('payment_type', DB::raw('COUNT(*) as total'))
+            ->groupBy('payment_type')
+            ->pluck('total', 'payment_type')
+            ->toArray();
+
+        return view('stockopname.index', compact('html', 'widget'));
     }
 
     /**

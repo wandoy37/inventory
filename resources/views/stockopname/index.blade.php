@@ -16,9 +16,12 @@
             </div>
         @endif
         <section class="section">
+            {{-- Widget --}}
+            @include('stockopname.widget')
+
             <div class="row pb-4">
                 <div class="col-lg-12">
-                    <a href="{{ route('stock-opname.create') }}" class="btn btn-rounded btn-outline-primary">
+                    <a href="{{ route('stock-opname.create') }}" class="btn btn-rounded btn-outline-primary float-end">
                         <i class="bi bi-plus"></i>
                         Stock Opname
                     </a>

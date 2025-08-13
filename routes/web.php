@@ -49,3 +49,14 @@ Route::resource('/daftar-vendor', VendorController::class);
 
 // Stock Opname
 Route::resource('/stock-opname', StockOpnameController::class);
+// Filter Stock Opname
+Route::get('stock-opname/filter/{payment_type}', function ($payment_type) {
+    if ($payment_type === 'all') {
+        session()->forget('payment_type_filter'); // hapus filter
+    } else {
+        // ganti tanda '-' jadi '/' kalau ada
+        $payment_type = str_replace('-', '/', $payment_type);
+        session(['payment_type_filter' => $payment_type]);
+    }
+    return redirect()->route('stock-opname.index');
+})->name('stock-opname.filter');
