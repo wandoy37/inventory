@@ -35,7 +35,7 @@
                                 </a>
                             </li>
                             <li class="submenu-item  ">
-                                <a href="layout-default.html" class='submenu-link'>Hutang</a>
+                                <a href="{{ route('hutang.index') }}" class='submenu-link'>Hutang</a>
                             </li>
                             <li class="submenu-item  ">
                                 <a href="layout-default.html" class='submenu-link'>Retur/Pengembalian</a>

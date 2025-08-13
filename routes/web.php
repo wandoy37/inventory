@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\CreditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
@@ -60,3 +61,6 @@ Route::get('stock-opname/filter/{payment_type}', function ($payment_type) {
     }
     return redirect()->route('stock-opname.index');
 })->name('stock-opname.filter');
+
+// Daftar Hutang Controller
+Route::resource('/hutang', CreditController::class);
