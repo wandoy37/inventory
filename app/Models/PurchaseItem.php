@@ -16,6 +16,8 @@ class PurchaseItem extends Model
     protected $fillable = [
         'purchase_id',
         'item_id',
+        'item_id',
+        'item_unit_type_id',
         'quantity',
         'price_buy',
         'price_sell',
@@ -31,6 +33,11 @@ class PurchaseItem extends Model
 
     public function item(): BelongsTo
     {
-        return $this->belongsTo(Item::class, 'purchase_id');
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+
+    public function unitType(): BelongsTo
+    {
+        return $this->belongsTo(ItemUnitType::class, 'item_unit_type_id');
     }
 }

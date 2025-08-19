@@ -10,8 +10,31 @@ class VendorsController extends Controller
 {
         public function vendors(Request $request)
         {
-                $q = trim($request->q ?? '');
-                $perPage = min((int)($request->per_page ?? 20), 50); // hard cap
+                // ===== Mode by ID (prefill) =====
+                if ($request->filled('id')) {
+                        // dukung single id
+                        $id = $request->id;
+
+                        // cari vendor
+                        $vendor = Vendor::query()->select(['id', 'name'])->find($id);
+
+                        if (!$vendor) {
+                                // boleh balas null atau 404 — di sini pakai null supaya JS gampang handle
+                                return response()->json(null);
+                        }
+
+                        // konsisten dengan format Choices: { value, label }
+                        return response()->json([
+                                'value' => $vendor->id,
+                                'label' => $vendor->name,
+                        ]);
+                }
+
+
+                // ===== Mode search (list) =====
+                $q = trim((string) $request->q);
+                $perPage = (int) ($request->per_page ?? 20);
+                $perPage = max(1, min($perPage, 50)); // hard cap 50
 
                 if (mb_strlen($q) < 2) {
                         return response()->json([]);

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_id');
             $table->unsignedBigInteger('item_id');
+            $table->unsignedBigInteger('item_unit_type_id');
             $table->integer('quantity');
             $table->bigInteger('price_buy');
             $table->bigInteger('price_sell');
@@ -24,6 +25,7 @@ return new class extends Migration
 
             $table->foreign('purchase_id')->references('id')->on('purchases');
             $table->foreign('item_id')->references('id')->on('items');
+            $table->foreign('item_unit_type_id')->references('id')->on('item_unit_types');
             $table->timestamps();
         });
     }

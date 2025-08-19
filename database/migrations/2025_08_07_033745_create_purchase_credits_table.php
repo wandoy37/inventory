@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('purchase_id');
             $table->date('repayment_date')->nullable();
-            $table->enum('payment_type', ['cash', 'cek/bg', 'bank transfer']);
+            $table->enum('payment_type', ['cash', 'cek/bg', 'bank transfer'])->nullable();
             $table->enum('status', ['paid', 'credit']);
 
             $table->foreign('purchase_id')->references('id')->on('purchases');

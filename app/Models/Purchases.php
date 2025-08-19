@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\PurchaseItem;
+use App\Models\PurchaseTransfer;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,5 +64,10 @@ class Purchases extends Model
     public function items(): HasMany
     {
         return $this->hasMany(PurchaseItem::class, 'purchase_id');
+    }
+
+    public function transfer(): HasOne
+    {
+        return $this->hasOne(PurchaseTransfer::class, 'purchase_id');
     }
 }
