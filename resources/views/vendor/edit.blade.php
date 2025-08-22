@@ -8,8 +8,18 @@
         @if (session('errors'))
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="alert alert-error alert-dismissible show fade">
-                        <Strong>Terjadi kesalahan, periksa data yang di input.!</Strong>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Terjadi kesalahan, periksa data yang di input.!</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
@@ -84,16 +94,94 @@
                     </div>
                 </form>
             </div>
+
+            <div class="row">
+                @include('vendor.form_tambah_rekening')
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Daftar Rekening</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <th>NO</th>
+                                        <th>BANK</th>
+                                        <th>NOMOR REKENING</th>
+                                        <th>ACTION</th>
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $no = 1;
+                                        @endphp
+                                        @foreach ($vendor->rekenings as $rekening)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $rekening->bank_name }}</td>
+                                                <td>{{ $rekening->rekening_number }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-md text-danger ms-2 btn-delete"
+                                                        data-id="{{ $rekening->id }}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+
+                                                    <!-- Form delete disembunyikan -->
+                                                    <form id="delete-form-{{ $rekening->id }}"
+                                                        action="{{ route('rekening-vendor.destroy', $rekening->id) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
 @endsection
 
 @push('style')
-    <link rel="stylesheet" href="{{ asset('assets') }}/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="{{ asset('assets') }}/extensions/sweetalert2/sweetalert2.min.css">
 @endpush
 
 @push('script')
     <script src="{{ asset('assets') }}/extensions/jquery/jquery.min.js"></script>
-    <script src="{{ asset('assets') }}/extensions/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('assets') }}/extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="{{ asset('assets') }}/extensions/sweetalert2/sweetalert2.min.js"></script>>
+
+    {{-- Button Delete wiht confirmation sweetAlert --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const roomId = this.getAttribute('data-id');
+
+                    Swal.fire({
+                        title: 'Are you sure you want to delete?',
+                        text: "Deleted data cannot be returned!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#6c757d',
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Submit form sesuai ID
+                            document.getElementById('delete-form-' + roomId).submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 @endpush

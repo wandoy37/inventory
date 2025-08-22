@@ -5,6 +5,7 @@ use App\Http\Controllers\CreditController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\RekeningVendorController;
 use App\Http\Controllers\StockOpnameController;
 use App\Http\Controllers\VendorController;
 use App\Models\Vendor;
@@ -48,6 +49,8 @@ Route::middleware('web')->group(function () {
 
     // Daftar Vendor
     Route::resource('/daftar-vendor', VendorController::class);
+    // Rekening Vendor
+    Route::resource('rekening-vendor', RekeningVendorController::class);
 
     // Stock Opname
     Route::resource('/stock-opname', StockOpnameController::class);
