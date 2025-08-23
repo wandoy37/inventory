@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ItemsController;
 use App\Http\Controllers\Api\VendorsController;
 use App\Http\Controllers\Api\ItemUnitTypeController;
+use App\Http\Controllers\Api\RekeningVendorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/options/vendors', [VendorsController::class, 'vendors']);
 Route::get('/options/items', [ItemsController::class, 'items']);
 Route::get('/items/{item}/units', [ItemUnitTypeController::class, 'optionsByItem']);
+Route::get('/rekening/{vendorId}', [RekeningVendorController::class, 'optionsByRekening']);
