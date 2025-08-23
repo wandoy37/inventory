@@ -48,10 +48,26 @@ class StockOpnameController extends Controller
                     return number_format($row->payment_total, 0, ',', '.');
                 })
                 ->addColumn('action', function ($item) {
-                    return '<a href="' . route('stock-opname.edit', $item->id) . '" class="icon-link icon-link-hover text-dark">
-                <i class="bi bi-pen mb-2"></i>
-                Edit
-            </a>';
+                    $editBtn = '<a href="' . route('stock-opname.edit', $item->id) . '" 
+                            class="icon-link icon-link-hover text-dark me-2">
+                            <i class="bi bi-pen mb-2"></i> Edit
+                            </a>';
+
+                    $deleteBtn = '
+                    <form id="delete-form-' . $item->id . '" 
+                        action="' . route('stock-opname.destroy', $item->id) . '" 
+                        method="POST" style="display:inline;">
+                        ' . csrf_field() . '
+                        ' . method_field('DELETE') . '
+                        <input type="hidden" name="confirm_delete" value="1"> <!-- optional, hilangkan warning -->
+                        <button type="button" class="btn-delete btn btn-link text-danger p-0 m-0" 
+                                data-id="' . $item->id . '">
+                            <i class="bi bi-trash"></i> Delete
+                        </button>
+                    </form>
+                ';
+
+                    return $editBtn . $deleteBtn;
                 })
                 ->rawColumns(['payment_type', 'action'])
                 ->escapeColumns([])
@@ -307,6 +323,30 @@ class StockOpnameController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $dataPurchase = Purchases::findOrFail($id);
+
+        // update stock (kurangi quantity yang sebelumnya di tambahkan) dan hapus data PurchaseItem
+        foreach ($dataPurchase->items as $item) {
+            $unitType = ItemUnitType::find($item->item_unit_type_id);
+            $unitType->update([
+                'quantity' => $unitType->quantity - $item->quantity,
+            ]);
+            $item->delete();
+        }
+
+        // Jika payment_type credit, maka hapus juga data purchase_credits nya
+        if ($dataPurchase->payment_type == 'credit') {
+            $dataCredit = PurchaseCredit::where('purchase_id', $dataPurchase->id)->first();
+            $dataCredit->delete();
+        }
+
+        // Jika payment_type bank transfer, maka hapus juga data purchase_transfer nya
+        if ($dataPurchase->payment_type == 'bank transfer') {
+            $dataBankTransfer = PurchaseTransfer::where('purchase_id', $dataPurchase->id)->first();
+            $dataBankTransfer->delete();
+        }
+
+        $dataPurchase->delete();
+        return redirect()->back()->with('success', 'Data pembelian berhasil di hapus.');
     }
 }
