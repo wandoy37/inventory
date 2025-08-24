@@ -120,11 +120,14 @@
 
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="bank_origin">Asal Bank</label>
-                                                <input type="text"
-                                                    class="form-control @error('bank_origin') is-invalid @enderror"
-                                                    id="bank_origin" name="bank_origin" value="{{ old('bank_origin') }}"
-                                                    placeholder="Bank origin" disabled>
+                                                <label for="bank_origin">Tujuan Bank/Rekening</label>
+                                                <select id="rekening_vendor_id" name="rekening_vendor_id"
+                                                    class="form-select  @error('rekening_vendor_id') is-invalid @enderror">
+                                                    <option value="">-- Pilih tujuan bank/rekening --</option>
+                                                </select>
+                                                @error('rekening_vendor_id')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
                                                 @error('bank_origin')
                                                     <small class="text-danger">{{ $message }}</small>
                                                 @enderror
@@ -477,6 +480,70 @@
             if (paymentType.value === 'bank transfer') {
                 bankWrap.classList.add('is-open');
             }
+        });
+    </script>
+
+    {{-- Select Tujuan Bank/Rekening Vendors --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const vendorEl = document.getElementById('vendor_id');
+            const rekeningEl = document.getElementById('rekening_vendor_id');
+
+            // helper untuk set isi select
+            function setRekeningOptions(options, placeholder = '-- Pilih tujuan bank/rekening --') {
+                rekeningEl.innerHTML = ''; // reset dulu
+
+                // tambah placeholder
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = placeholder;
+                opt.disabled = true;
+                opt.selected = true;
+                rekeningEl.appendChild(opt);
+
+                // isi opsi lain
+                options.forEach(item => {
+                    const o = document.createElement('option');
+                    o.value = item.value;
+                    o.textContent = item.label;
+                    rekeningEl.appendChild(o);
+                });
+            }
+
+            vendorEl.addEventListener('change', async (e) => {
+                const vendorId = e.target.value;
+
+                if (!vendorId) {
+                    setRekeningOptions([], '-- Pilih tujuan bank/rekening --');
+                    return;
+                }
+
+                // tampilkan "Memuat..."
+                setRekeningOptions([], 'Memuat...');
+
+                try {
+                    const url = `{{ url('/api/rekening') }}/${vendorId}`;
+                    const res = await fetch(url, {
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+                    if (!res.ok) throw new Error('Gagal fetch');
+
+                    const data = await res.json(); // [{value,label}]
+                    if (!Array.isArray(data) || data.length === 0) {
+                        setRekeningOptions([], 'Tidak ada rekening untuk vendor ini');
+                        return;
+                    }
+
+                    // isi dropdown dengan hasil
+                    setRekeningOptions(data);
+
+                } catch (err) {
+                    console.error(err);
+                    setRekeningOptions([], 'Gagal memuat rekening');
+                }
+            });
         });
     </script>
 @endpush

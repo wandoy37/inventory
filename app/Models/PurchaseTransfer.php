@@ -16,9 +16,10 @@ class PurchaseTransfer extends Model
     protected $fillable = [
         'purchase_id',
         'bank_id',
-        'bank_origin',
+        'rekening_vendor_id',
         'reference_number',
     ];
+
 
     public function purchase(): BelongsTo
     {
@@ -28,5 +29,10 @@ class PurchaseTransfer extends Model
     public function bank(): BelongsTo
     {
         return $this->belongsTo(BankAccount::class, 'bank_id');
+    }
+
+    public function vendor(): BelongsTo
+    {
+        return $this->belongsTo(RekeningVendor::class, 'rekening_vendor_id');
     }
 }

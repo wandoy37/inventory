@@ -169,8 +169,8 @@ class StockOpnameController extends Controller
         if ($request->payment_type == 'bank transfer') {
             PurchaseTransfer::create([
                 'purchase_id' => $dataPurchase->id,
-                'bank_id' => $request->bank_id,
-                'bank_origin' => $request->bank_origin, //asal bank
+                'bank_id' => $request->bank_id, // asal bank
+                'rekening_vendor_id' => $request->rekening_vendor_id, // tujuan bank
                 'reference_number' => $request->reference_number // nomor refrensi bank transfer
             ]);
         }

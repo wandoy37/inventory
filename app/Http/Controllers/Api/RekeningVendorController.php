@@ -16,7 +16,7 @@ class RekeningVendorController extends Controller
                         ->get()
                         ->map(fn($u) => [
                                 'value' => $u->id,
-                                'label' => $u->bank_name . ' - ' . $u->rekening_number,
+                                'label' => $u->bank_name . ' - ' . $u->rekening_number . ' a.n. ' . $u->vendor->name,
                         ]);
 
                 return response()->json($rekenings);
