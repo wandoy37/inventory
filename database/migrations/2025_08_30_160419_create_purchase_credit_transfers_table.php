@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_transfers', function (Blueprint $table) {
+        Schema::create('purchase_credit_transfers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('purchase_id');
+            $table->unsignedBigInteger('purchase_credit_id');
             $table->unsignedBigInteger('bank_id');
             $table->unsignedBigInteger('rekening_vendor_id');
             $table->string('reference_number');
 
-            $table->foreign('purchase_id')->references('id')->on('purchases');
-            $table->foreign('bank_id')->references('id')->on('bank_accounts');
-            $table->foreign('rekening_vendor_id')->references('id')->on('rekening_vendors');
+            $table->foreign('purchase_credit_id')->references('id')->on('purchase_credits')->onDelete('cascade');
+            $table->foreign('bank_id')->references('id')->on('bank_accounts')->onDelete('cascade');
+            $table->foreign('rekening_vendor_id')->references('id')->on('rekening_vendors')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_transfers');
+        Schema::dropIfExists('purchase_credit_transfers');
     }
 };
